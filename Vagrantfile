@@ -12,6 +12,13 @@ Vagrant.configure("2") do |config|
     box02.vm.network "private_network", ip: "192.168.56.12"
     box02.vm.synced_folder ".", "/vagrant"
   end
+
+  config.vm.define "box03" do |box03|
+    box03.vm.box = "ubuntu/trusty64"
+    box03.vm.hostname = "box03"
+    box03.vm.network "private_network", ip: "192.168.56.13"
+    box03.vm.synced_folder ".", "/vagrant"
+  end
 end
 
 
