@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   ### Nginx ###
 
   config.vm.define "web01" do |web01|
-    web01.vm.box = "ubuntu/bionic64"
+    web01.vm.box = "ubuntu/trusty64"
     web01.vm.hostname = "web01"
     web01.vm.network "private_network", ip: "192.168.56.101"
   end
