@@ -9,6 +9,9 @@ Vagrant.configure("2") do |config|
     web01.vm.box = "ubuntu/trusty64"
     web01.vm.hostname = "web01"
     web01.vm.network "private_network", ip: "192.168.56.101"
+    web01.vm.provider "virtualbox" do |vb|
+      vb.gui = true
+    end
   end
 
   ### Tomcat ###
