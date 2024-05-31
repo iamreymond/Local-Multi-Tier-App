@@ -1,5 +1,4 @@
 Vagrant.configure("2") do |config|
-  config.vm.boot_timeout = 600
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
 
@@ -11,7 +10,9 @@ Vagrant.configure("2") do |config|
     web01.vm.network "private_network", ip: "192.168.56.101"
     web01.vm.provider "virtualbox" do |vb|
       vb.gui = true
+      vb.memory = "1024"
     end
+    web01.vm.provision "shell", path: "nginx.sh"
   end
 
   ### Tomcat ###
@@ -23,6 +24,7 @@ Vagrant.configure("2") do |config|
       vb.memory = "1024"
       vb.cpus = 2
     end
+    app01.vm.provision "shell", path: "tomcat.sh"
   end
 
   ### RabbitMQ ###
@@ -30,6 +32,7 @@ Vagrant.configure("2") do |config|
     rmq01.vm.box = "geerlingguy/centos7"
     rmq01.vm.hostname = "rmq01"
     rmq01.vm.network "private_network", ip: "192.168.56.103"
+    rmq01.vm.provision "shell", path: "rabbitmq.sh"
   end
 
   ### Memcache ###
@@ -37,6 +40,7 @@ Vagrant.configure("2") do |config|
     mc01.vm.box = "geerlingguy/centos7"
     mc01.vm.hostname = "mc01"
     mc01.vm.network "private_network", ip: "192.168.56.104"
+    mc01.vm.provision "shell", path: "memcached.sh"
   end
 
   ### MySQL ###
@@ -44,6 +48,10 @@ Vagrant.configure("2") do |config|
     db01.vm.box = "geerlingguy/centos7"
     db01.vm.hostname = "db01"
     db01.vm.network "private_network", ip: "192.168.56.105"
+    db01.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+    end
+    db01.vm.provision "shell", path: "mysql.sh"
   end
 end
 
