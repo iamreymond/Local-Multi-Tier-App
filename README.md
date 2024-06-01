@@ -13,7 +13,7 @@ A web application consisting of various services to power your project.
 Setup Locally (Laptop/Desktop)
 
 ## Instructions on how to install and set up the project locally:
-Follow the instructions provided in the attached PDF file.
+Follow the instructions provided in the attached PDF file in Manual_Provisioning branch.
 
 ## Credits
 Special thanks to Sir Imran Teli from Udemy, He's the owner of this project.
