@@ -12,7 +12,7 @@ A web application consisting of various services to power your project.
 ## Installation
 Setup Locally (Laptop/Desktop)
 
-Instructions on how to install and set up the project locally:
+## Instructions on how to install and set up the project locally:
 Follow the instructions provided in the attached PDF file.
 
 ## Credits
