@@ -1,32 +1,38 @@
-# adding repository and installing nginx		
-apt update
-apt install nginx -y
-cat <<EOT > vproapp
+#!/bin/bash
+
+# Update OS with latest patches
+echo "Updating OS with latest patches..."
+sudo apt update -y
+sudo apt upgrade -y
+
+# Install Nginx
+echo "Installing Nginx..."
+sudo apt install nginx -y
+
+# Create Nginx configuration file for vproapp
+echo "Creating Nginx configuration file for vproapp..."
+sudo tee /etc/nginx/sites-available/vproapp > /dev/null <<EOL
 upstream vproapp {
-
- server app01:8080;
-
+    server app01:8080;
 }
-
 server {
-
-  listen 80;
-
-location / {
-
-  proxy_pass http://vproapp;
-
+    listen 80;
+    location / {
+        proxy_pass http://vproapp;
+    }
 }
+EOL
 
-}
+# Remove default Nginx configuration
+echo "Removing default Nginx configuration..."
+sudo rm -rf /etc/nginx/sites-enabled/default
 
-EOT
+# Create a symbolic link to activate the new website configuration
+echo "Activating the new website configuration..."
+sudo ln -s /etc/nginx/sites-available/vproapp /etc/nginx/sites-enabled/vproapp
 
-mv vproapp /etc/nginx/sites-available/vproapp
-rm -rf /etc/nginx/sites-enabled/default
-ln -s /etc/nginx/sites-available/vproapp /etc/nginx/sites-enabled/vproapp
+# Restart Nginx to apply the changes
+echo "Restarting Nginx..."
+sudo systemctl restart nginx
 
-#starting nginx service and firewall
-systemctl start nginx
-systemctl enable nginx
-systemctl restart nginx
+echo "Nginx setup complete."

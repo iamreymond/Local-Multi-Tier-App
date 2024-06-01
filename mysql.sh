@@ -1,20 +1,24 @@
 #!/bin/bash
 
 # Update OS with latest patches
+echo "Updating OS with latest patches..."
 yum update -y
 
 # Set Repository
+echo "Setting up repository..."
 yum install epel-release -y
 
-# Install MariaDB Package
+# Install MariaDB package and Git
+echo "Installing MariaDB and Git..."
 yum install git mariadb-server -y
 
-# Starting & enabling mariadb-server
+# Start and enable MariaDB server
+echo "Starting and enabling MariaDB server..."
 systemctl start mariadb
 systemctl enable mariadb
 
-# Run mysql secure installation script
-# Automating mysql_secure_installation using a here document
+# Run MySQL secure installation script
+echo "Running MySQL secure installation..."
 mysql_secure_installation <<EOF
 
 Y
@@ -26,36 +30,41 @@ Y
 Y
 EOF
 
-# Set DB name and users
-mysql -u root -padmin123 <<MYSQL_SCRIPT
-CREATE DATABASE accounts;
-GRANT ALL PRIVILEGES ON accounts.* TO 'admin'@'%' IDENTIFIED BY 'admin123';
+# Set database name and users
+echo "Setting up database and users..."
+mysql -u root -padmin123 <<EOF
+create database accounts;
+grant all privileges on accounts.* TO 'admin'@'%' identified by 'admin123';
 FLUSH PRIVILEGES;
-EXIT;
-MYSQL_SCRIPT
+exit;
+EOF
 
-# Download Source code & Initialize Database
+# Download source code and initialize database
+echo "Downloading source code and initializing database..."
 git clone -b main https://github.com/hkhcoder/vprofile-project.git
 cd vprofile-project
 mysql -u root -padmin123 accounts < src/main/resources/db_backup.sql
 
-# Verify tables
-mysql -u root -padmin123 accounts <<MYSQL_VERIFY
-SHOW TABLES;
-EXIT;
-MYSQL_VERIFY
+# Verify tables in the database
+mysql -u root -padmin123 accounts <<EOF
+show tables;
+exit;
+EOF
 
-# Restart mariadb-server
+# Restart MariaDB server
+echo "Restarting MariaDB server..."
 systemctl restart mariadb
 
-# Starting the firewall and allowing the mariadb to access from port no. 3306
+# Start the firewall and allow MariaDB to be accessed from port 3306
+echo "Configuring firewall to allow MariaDB access..."
 systemctl start firewalld
 systemctl enable firewalld
 firewall-cmd --get-active-zones
 firewall-cmd --zone=public --add-port=3306/tcp --permanent
 firewall-cmd --reload
 
-# Restart mariadb-server again to ensure all changes take effect
+# Restart MariaDB server to apply all changes
+echo "Restarting MariaDB server to apply all changes..."
 systemctl restart mariadb
 
-echo "MariaDB setup and configuration completed successfully."
+echo "Setup complete."
