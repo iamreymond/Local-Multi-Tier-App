@@ -16,4 +16,4 @@ Instructions on how to install and set up the project locally:
 Follow the instructions provided in the attached PDF file.
 
 ## Credits
-Credit for this project goes to Sir Imran Teli from Udemy.
+Special thanks to Sir Imran Teli from Udemy, He's the owner of this project.
