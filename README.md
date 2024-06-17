@@ -10,7 +10,7 @@ A web application consisting of various services to power your project.
 5. MySQL => SQL Database
 
 ## Installation
-Setup Locally (Laptop/Desktop)
+Setup Locally via Vagrant
 
 ## Instructions on how to install and set up the project locally:
 Follow the instructions provided in the attached PDF file in Manual_Provisioning branch.
